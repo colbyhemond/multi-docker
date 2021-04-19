@@ -15,9 +15,9 @@ after_success:
     - docker build -t colbyhemond/multi-nginx ./nginx
     - docker build -t colbyhemond/multi-server ./server
     - docker build -t colbyhemond/multi-worker ./worker
-    # Login to docker cli
+    # Login to Docker CLI
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-    # Push images to docker hub
+    # Push images to Docker Hub
     - docker push colbyhemond/multi-client
     - docker push colbyhemond/multi-nginx
     - docker push colbyhemond/multi-server
