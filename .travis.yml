@@ -1,0 +1,24 @@
+language: generic
+sudo: required
+
+services:
+    - docker
+
+before_install:
+    - docker build -t colbyhemond/react-test -f ./client/Dockerfile.dev .
+
+script:
+    - docker run -e CI=true colbyhemond/react-test npm test
+
+after_success:
+    - docker build -t colbyhemond/multi-client ./client
+    - docker build -t colbyhemond/multi-nginx ./nginx
+    - docker build -t colbyhemond/multi-server ./server
+    - docker build -t colbyhemond/multi-worker ./worker
+    # Login to docker cli
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    # Push images to docker hub
+    - docker push colbyhemond/multi-client
+    - docker push colbyhemond/multi-nginx
+    - docker push colbyhemond/multi-server
+    - docker push colbyhemond/multi-worker
