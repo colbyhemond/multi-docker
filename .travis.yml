@@ -5,7 +5,7 @@ services:
     - docker
 
 before_install:
-    - docker build -t colbyhemond/react-test -f ./client/Dockerfile.dev .
+    - docker build -t colbyhemond/react-test -f ./client/Dockerfile.dev ./client
 
 script:
     - docker run -e CI=true colbyhemond/react-test npm test
